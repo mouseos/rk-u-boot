@@ -8,7 +8,7 @@
 #define __CONFIG_RK3399_COMMON_H
 
 #include "rockchip-common.h"
-
+#define CONFIG_BOOTDELAY               10
 #define CONFIG_SYS_MALLOC_LEN		(32 << 20)
 #define CONFIG_SYS_CBSIZE		1024
 #define CONFIG_SKIP_LOWLEVEL_INIT
