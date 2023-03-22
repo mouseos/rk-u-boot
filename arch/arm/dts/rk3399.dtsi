@@ -1855,6 +1855,7 @@
 		};
 	};
 
+	
 
 	vop1_pwm: voppwm@ff8f01a0 {
 		compatible = "rockchip,vop-pwm";
@@ -1878,6 +1879,7 @@
 		#iommu-cells = <0>;
 		status = "disabled";
 	};
+
 	
 	vopl: vop@ff8f0000 {
 		compatible = "rockchip,rk3399-vop-lit";
@@ -1905,6 +1907,17 @@
 				reg = <2>;
 				remote-endpoint = <&edp_in_vopl>;
 			};
+
+			vopl_out_dp: endpoint@3 {
+				reg = <3>;
+				remote-endpoint = <&dp_in_vopl>;
+			};
+
+			vopl_out_dsi1: endpoint@4 {
+				reg = <4>;
+				remote-endpoint = <&dsi1_in_vopl>;
+			};
+
 		};
 	};
 
