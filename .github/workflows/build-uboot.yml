@@ -37,7 +37,7 @@ jobs:
         working-directory: u-boot
         run: |
           export ARCH=arm64
-          export CROSS_COMPILE=/usr/bin/gcc-linaro_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+          export CROSS_COMPILE=/usr/local/gcc-linaro_aarch64-linux-gnu/bin/aarch64-linux-gnu-
           make evb-rk3399_defconfig
           make dtbs
           ./make.sh evb-rk3399
