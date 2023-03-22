@@ -40,7 +40,7 @@ jobs:
         working-directory: u-boot
         run: |
           export ARCH=arm64
-          export CROSS_COMPILE=$(pwd)/gcc-linaro_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+          export CROSS_COMPILE=/usr/bin/gcc-linaro_aarch64-linux-gnu/bin/aarch64-linux-gnu-
           ./make.sh evb-rk3399
       - name: Upload
         uses: actions/upload-artifact@v3
