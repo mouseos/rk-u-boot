@@ -53,6 +53,8 @@
 
 #include "rk3399-dram-default-timing.dtsi"
 
+#define USB_CLASS_HUB			9
+
 / {
 	compatible = "rockchip,rk3399";
 
@@ -402,7 +404,49 @@
 		power-domains = <&power RK3399_PD_PERIHP>;
 		status = "disabled";
 	};
+	
+	dwc3_typec0: usb@fe800000 {
+		compatible = "rockchip,rk3399-xhci";
+		reg = <0x0 0xfe800000 0x0 0x100000>;
+		status = "disabled";
+		snps,dis-enblslpm-quirk;
+		snps,phyif-utmi-bits = <16>;
+		snps,dis-u2-freeclk-exists-quirk;
+		snps,dis-u2-susphy-quirk;
 
+		#address-cells = <2>;
+		#size-cells = <2>;
+		hub {
+			compatible = "usb-hub";
+			usb,device-class = <USB_CLASS_HUB>;
+		};
+		typec_phy0 {
+			compatible = "rockchip,rk3399-usb3-phy";
+			reg = <0x0 0xff7c0000 0x0 0x40000>;
+		};
+	};
+	
+	dwc3_typec1: usb@fe900000 {
+		compatible = "rockchip,rk3399-xhci";
+		reg = <0x0 0xfe900000 0x0 0x100000>;
+		status = "disabled";
+		snps,dis-enblslpm-quirk;
+		snps,phyif-utmi-bits = <16>;
+		snps,dis-u2-freeclk-exists-quirk;
+		snps,dis-u2-susphy-quirk;
+
+		#address-cells = <2>;
+		#size-cells = <2>;
+		hub {
+			compatible = "usb-hub";
+			usb,device-class = <USB_CLASS_HUB>;
+		};
+		typec_phy1 {
+			compatible = "rockchip,rk3399-usb3-phy";
+			reg = <0x0 0xff800000 0x0 0x40000>;
+		};
+	};
+	
 	usbdrd3_0: usb0 {
 		compatible = "rockchip,rk3399-dwc3";
 		clocks = <&cru SCLK_USB3OTG0_REF>, <&cru SCLK_USB3OTG0_SUSPEND>,
@@ -1149,6 +1193,11 @@
 			status = "disabled";
 		};
 	};
+	
+	pmusgrf: syscon@ff330000 {
+		compatible = "rockchip,rk3399-pmusgrf", "syscon";
+		reg = <0x0 0xff330000 0x0 0xe3d4>;
+	};
 
 	spi3: spi@ff350000 {
 		compatible = "rockchip,rk3399-spi", "rockchip,rk3066-spi";
@@ -1299,6 +1348,11 @@
 		clocks = <&pmucru PCLK_RKPWM_PMU>;
 		clock-names = "pwm";
 		status = "disabled";
+	};
+	
+	cic: syscon@ff620000 {
+		compatible = "rockchip,rk3399-cic", "syscon";
+		reg = <0x0 0xff620000 0x0 0x100>;
 	};
 
 	dfi: dfi@ff630000 {
@@ -1801,51 +1855,6 @@
 		};
 	};
 
-	vopl: vop@ff8f0000 {
-		compatible = "rockchip,rk3399-vop-lit";
-		reg = <0x0 0xff8f0000 0x0 0x600>,
-			<0x0 0xff8f1c00 0x0 0x200>,
-			<0x0 0xff8f2000 0x0 0x400>;
-		reg-names = "regs", "cabc_lut", "gamma_lut";
-		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
-		clocks = <&cru ACLK_VOP1>, <&cru DCLK_VOP1>, <&cru HCLK_VOP1>, <&cru DCLK_VOP1_DIV>;
-		clock-names = "aclk_vop", "dclk_vop", "hclk_vop", "dclk_source";
-		iommus = <&vopl_mmu>;
-		power-domains = <&power RK3399_PD_VOPL>;
-		resets = <&cru SRST_A_VOP1>, <&cru SRST_H_VOP1>, <&cru SRST_D_VOP1>;
-		reset-names = "axi", "ahb", "dclk";
-		status = "disabled";
-
-		vopl_out: port {
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			vopl_out_dsi: endpoint@0 {
-				reg = <0>;
-				remote-endpoint = <&dsi_in_vopl>;
-			};
-
-			vopl_out_edp: endpoint@1 {
-				reg = <1>;
-				remote-endpoint = <&edp_in_vopl>;
-			};
-
-			vopl_out_hdmi: endpoint@2 {
-				reg = <2>;
-				remote-endpoint = <&hdmi_in_vopl>;
-			};
-
-			vopl_out_dp: endpoint@3 {
-				reg = <3>;
-				remote-endpoint = <&dp_in_vopl>;
-			};
-
-			vopl_out_dsi1: endpoint@4 {
-				reg = <4>;
-				remote-endpoint = <&dsi1_in_vopl>;
-			};
-		};
-	};
 
 	vop1_pwm: voppwm@ff8f01a0 {
 		compatible = "rockchip,vop-pwm";
@@ -1869,53 +1878,96 @@
 		#iommu-cells = <0>;
 		status = "disabled";
 	};
-
-	vopb: vop@ff900000 {
-		compatible = "rockchip,rk3399-vop-big";
-		reg = <0x0 0xff900000 0x0 0x600>,
-			<0x0 0xff901c00 0x0 0x200>,
-			<0x0 0xff902000 0x0 0x1000>;
-		reg-names = "regs", "cabc_lut", "gamma_lut";
-		interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
-		clocks = <&cru ACLK_VOP0>, <&cru DCLK_VOP0>, <&cru HCLK_VOP0>, <&cru DCLK_VOP0_DIV>;
-		clock-names = "aclk_vop", "dclk_vop", "hclk_vop", "dclk_source";
-		resets = <&cru SRST_A_VOP0>, <&cru SRST_H_VOP0>, <&cru SRST_D_VOP0>;
+	
+	vopl: vop@ff8f0000 {
+		compatible = "rockchip,rk3399-vop-lit";
+		reg = <0x0 0xff8f0000 0x0 0x3efc>;
+		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH 0>;
+		clocks = <&cru ACLK_VOP1>, <&cru DCLK_VOP1>, <&cru HCLK_VOP1>;
+		clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
+		resets = <&cru SRST_A_VOP1>, <&cru SRST_H_VOP1>, <&cru SRST_D_VOP1>;
 		reset-names = "axi", "ahb", "dclk";
-		power-domains = <&power RK3399_PD_VOPB>;
-		iommus = <&vopb_mmu>;
 		status = "disabled";
-
-		vopb_out: port {
+		vopl_out: port {
 			#address-cells = <1>;
 			#size-cells = <0>;
-
-			vopb_out_edp: endpoint@0 {
+			vopl_out_mipi: endpoint@0 {
 				reg = <0>;
-				remote-endpoint = <&edp_in_vopb>;
+				remote-endpoint = <&mipi_in_vopl>;
 			};
 
-			vopb_out_dsi: endpoint@1 {
+			vopl_out_hdmi: endpoint@1 {
 				reg = <1>;
-				remote-endpoint = <&dsi_in_vopb>;
+				remote-endpoint = <&hdmi_in_vopl>;
 			};
 
-			vopb_out_hdmi: endpoint@2 {
+			vopl_out_edp: endpoint@2 {
 				reg = <2>;
-				remote-endpoint = <&hdmi_in_vopb>;
-			};
-
-			vopb_out_dp: endpoint@3 {
-				reg = <3>;
-				remote-endpoint = <&dp_in_vopb>;
-			};
-
-			vopb_out_dsi1: endpoint@4 {
-				reg = <4>;
-				remote-endpoint = <&dsi1_in_vopb>;
+				remote-endpoint = <&edp_in_vopl>;
 			};
 		};
 	};
 
+	vopb: vop@ff900000 {
+		compatible = "rockchip,rk3399-vop-big";
+		reg = <0x0 0xff900000 0x0 0x3efc>;
+		interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH 0>;
+		clocks = <&cru ACLK_VOP0>, <&cru DCLK_VOP0>, <&cru HCLK_VOP0>;
+		#clock-cells = <0>;
+		clock-names = "aclk_vop", "dclk_vop", "hclk_vop";
+		resets = <&cru SRST_A_VOP0>, <&cru SRST_H_VOP0>, <&cru SRST_D_VOP0>;
+		reset-names = "axi", "ahb", "dclk";
+		status = "disabled";
+		vopb_out: port {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			vopb_out_mipi: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&mipi_in_vopb>;
+			};
+
+			vopb_out_hdmi: endpoint@1 {
+				reg = <1>;
+				remote-endpoint = <&hdmi_in_vopb>;
+			};
+
+			vopb_out_edp: endpoint@2 {
+				reg = <2>;
+				remote-endpoint = <&edp_in_vopb>;
+			};
+		};
+	};
+	
+	mipi_dsi: mipi@ff960000 {
+		compatible = "rockchip,rk3399_mipi_dsi";
+		reg = <0x0 0xff960000 0x0 0x8000>;
+		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH 0>;
+		clocks = <&cru SCLK_MIPIDPHY_REF>, <&cru PCLK_MIPI_DSI0>,
+		         <&cru SCLK_DPHY_TX0_CFG>;
+		clock-names = "ref", "pclk", "phy_cfg";
+		rockchip,grf = <&grf>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+			mipi_in: port {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				mipi_in_vopb: endpoint@0 {
+					reg = <0>;
+					remote-endpoint = <&vopb_out_mipi>;
+				};
+				mipi_in_vopl: endpoint@1 {
+					reg = <1>;
+					remote-endpoint = <&vopl_out_mipi>;
+				};
+			};
+		};
+	};
+	
 	vop0_pwm: voppwm@ff9001a0 {
 		compatible = "rockchip,vop-pwm";
 		reg = <0x0 0xff9001a0 0x0 0x10>;
@@ -2160,11 +2212,28 @@
 
 	display_subsystem: display-subsystem {
 		compatible = "rockchip,display-subsystem";
-		ports = <&vopl_out>, <&vopb_out>;
-		clocks = <&cru PLL_VPLL>, <&cru PLL_CPLL>;
-		clock-names = "hdmi-tmds-pll", "default-vop-pll";
-		devfreq = <&dmc>;
-		status = "disabled";
+		ports = <&vopb_out>, <&vopl_out>;
+		status = "okay";
+
+		route {
+			route_hdmi: route-hdmi {
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vopb_out_hdmi>;
+			};
+
+			route_edp: route-edp {
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vopb_out_edp>;
+			};
+		};
 	};
 
 	nocp_cci_msch0: nocp-cci-msch0@ffa86000 {
