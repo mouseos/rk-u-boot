@@ -128,6 +128,7 @@
 #define SCLK_USBPHY1_480M_SRC		169
 #define SCLK_DDRCLK			170
 #define SCLK_TESTOUT2			171
+#define SCLK_UART0_SRC 172
 
 #define DCLK_VOP0			180
 #define DCLK_VOP1			181
