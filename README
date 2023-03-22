@@ -1,3 +1,4 @@
+Z会タブレット向けu-boot移植版。UART経由で動作確認済み。LCDの動作確認はまだ行っていません。
 #
 # (C) Copyright 2000 - 2013
 # Wolfgang Denk, DENX Software Engineering, wd@denx.de.
