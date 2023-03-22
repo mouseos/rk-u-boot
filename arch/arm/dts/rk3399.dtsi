@@ -1918,6 +1918,11 @@
 				remote-endpoint = <&dsi1_in_vopl>;
 			};
 
+			vopl_out_dsi: endpoint@5 {
+				reg = <5>;
+				remote-endpoint = <&dsi_in_vopl>;
+			};
+
 		};
 	};
 
