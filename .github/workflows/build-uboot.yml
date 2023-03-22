@@ -34,8 +34,7 @@ jobs:
           tar xvf gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu.tar.xz -C ./
           sudo ln -s $(pwd)/gcc-linaro*aarch64-linux-gnu /usr/local/gcc-linaro_aarch64-linux-gnu
           git clone https://github.com/rockchip-linux/rkbin --depth 1 ../rkbin
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+
       - name: Build U-Boot
         working-directory: u-boot
         run: |
