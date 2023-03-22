@@ -53,6 +53,8 @@
 
 #include "rk3399-dram-default-timing.dtsi"
 
+#define USB_CLASS_HUB			9
+
 / {
 	compatible = "rockchip,rk3399";
 
