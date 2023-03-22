@@ -45,6 +45,7 @@
  * dclk_vop will have a exclusive pll as parent.
  * set dclk_vop will change the pll rate as well.
  */
+#include <dt-bindings/clock/rk3399-cru.h>
 
 #ifdef RK3399_TWO_PLL_FOR_VOP
 
