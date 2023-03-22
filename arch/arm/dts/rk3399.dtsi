@@ -1969,7 +1969,37 @@
 			};
 		};
 	};
-
+	
+	mipi_dsi: mipi@ff960000 {
+		compatible = "rockchip,rk3399_mipi_dsi";
+		reg = <0x0 0xff960000 0x0 0x8000>;
+		interrupts = <GIC_SPI 45 IRQ_TYPE_LEVEL_HIGH 0>;
+		clocks = <&cru SCLK_MIPIDPHY_REF>, <&cru PCLK_MIPI_DSI0>,
+		         <&cru SCLK_DPHY_TX0_CFG>;
+		clock-names = "ref", "pclk", "phy_cfg";
+		rockchip,grf = <&grf>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+			mipi_in: port {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				mipi_in_vopb: endpoint@0 {
+					reg = <0>;
+					remote-endpoint = <&vopb_out_mipi>;
+				};
+				mipi_in_vopl: endpoint@1 {
+					reg = <1>;
+					remote-endpoint = <&vopl_out_mipi>;
+				};
+			};
+		};
+	};
+	
 	vop0_pwm: voppwm@ff9001a0 {
 		compatible = "rockchip,vop-pwm";
 		reg = <0x0 0xff9001a0 0x0 0x10>;
@@ -2214,11 +2244,28 @@
 
 	display_subsystem: display-subsystem {
 		compatible = "rockchip,display-subsystem";
-		ports = <&vopl_out>, <&vopb_out>;
-		clocks = <&cru PLL_VPLL>, <&cru PLL_CPLL>;
-		clock-names = "hdmi-tmds-pll", "default-vop-pll";
-		devfreq = <&dmc>;
-		status = "disabled";
+		ports = <&vopb_out>, <&vopl_out>;
+		status = "okay";
+
+		route {
+			route_hdmi: route-hdmi {
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vopb_out_hdmi>;
+			};
+
+			route_edp: route-edp {
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vopb_out_edp>;
+			};
+		};
 	};
 
 	nocp_cci_msch0: nocp-cci-msch0@ffa86000 {
