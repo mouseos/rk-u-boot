@@ -16,11 +16,6 @@
 	};
 };
 
-&psci {
-	u-boot,dm-pre-reloc;
-	status = "okay";
-};
-
 &uart2 {
 	clock-frequency = <24000000>;
 	u-boot,dm-pre-reloc;
@@ -58,10 +53,6 @@
 	u-boot,dm-pre-reloc;
 };
 
-&crypto {
-	u-boot,dm-pre-reloc;
-};
-
 &grf {
 	u-boot,dm-pre-reloc;
 };
@@ -71,6 +62,14 @@
 };
 
 &dmc {
+	u-boot,dm-pre-reloc;
+};
+
+&dwc3_typec0 {
+	u-boot,dm-pre-reloc;
+};
+
+&dwc3_typec1 {
 	u-boot,dm-pre-reloc;
 };
 
