@@ -45,7 +45,7 @@ jobs:
       - name: Make sd card image
         run: |
           bash mkgpt.sh
-          kpartx -av gpt.img
+          sudo kpartx -av gpt.img
           ls -l /dev/mapper/
 
       - name: Upload
