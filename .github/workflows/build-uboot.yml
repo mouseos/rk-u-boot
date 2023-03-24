@@ -46,7 +46,8 @@ jobs:
         run: |
           bash mkgpt.sh
           sudo kpartx -av gpt.img
-          ls -l /dev/mapper/
+          dd if=u-boot/u-boot.bin of=loop3p2 bs=4096
+          dd if=u-boot/trust.bin of=loop3p3 bs=4096
 
       - name: Upload
         uses: actions/upload-artifact@v3
