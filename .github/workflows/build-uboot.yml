@@ -46,10 +46,11 @@ jobs:
         run: |
           bash mkgpt.sh
           sudo kpartx -av gpt.img
+          ls /dev
           sudo dd if=u-boot/uboot.img of=loop3p1 bs=4096
           sudo dd if=u-boot/trust.img of=loop3p2 bs=4096
           sudo mkfs.vfat -v -c -F 32 /dev/loop3p3
-          sudo mkfs -t ext4 /dev/loop3p5
+          sudo mkfs -t ext4 /dev/loop3p4
           xz gpt.img 
       - name: Upload
         uses: actions/upload-artifact@v3
