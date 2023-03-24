@@ -46,6 +46,6 @@ jobs:
         with:
           name: JJ31-uboot
           path: |
-            u-boot/*.bin
+            u-boot/*.bin 
             u-boot/*.img
           if-no-files-found: ignore
