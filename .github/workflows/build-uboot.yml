@@ -23,7 +23,7 @@ jobs:
       - name: Create directory
         run: |
           mkdir u-boot
-          find . -maxdepth 1 -not -name . -not -name .. -not -name .github -not -name u-boot -exec mv {} u-boot/ \;
+          find . -maxdepth 1 -not -name . -not -name .. -not -name .github -not -name mkgpt.sh -not -name u-boot -exec mv {} u-boot/ \;
       - name: Install toolchain
         if: steps.cache.outputs.cache-hit != 'true'
         working-directory: u-boot
