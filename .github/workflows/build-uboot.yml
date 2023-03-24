@@ -47,10 +47,10 @@ jobs:
           bash mkgpt.sh
           sudo kpartx -av gpt.img
           ls /dev
-          sudo dd if=u-boot/uboot.img of=/dev/mapper/loop3p1 bs=4096
-          sudo dd if=u-boot/trust.img of=/dev/mapper/loop3p2 bs=4096
-          sudo mkfs.vfat -v -c -F 32 /dev/mapper/loop3p3
-          sudo mkfs -t ext4 /dev/mapper/loop3p4
+          sudo dd if=u-boot/uboot.img of=/dev/mapper/loop3p2 bs=4096
+          sudo dd if=u-boot/trust.img of=/dev/mapper/loop3p3 bs=4096
+          sudo mkfs.vfat -v -c -F 32 /dev/mapper/loop3p4
+          sudo mkfs -t ext4 /dev/mapper/loop3p5
           xz gpt.img 
       - name: Upload
         uses: actions/upload-artifact@v3
