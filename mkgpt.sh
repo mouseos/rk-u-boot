@@ -16,7 +16,7 @@ echo "n
 16383
 w" | fdisk $img_path
 
-echo "Creating u-boot"
+echo "Creating uboot"
 echo "n
 2
 16384
