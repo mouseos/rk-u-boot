@@ -42,13 +42,15 @@ jobs:
           make evb-rk3399_defconfig
           make dtbs
           ./make.sh evb-rk3399
-      - name: Make sd card image
+      - name: Make sd card image(gpt.img)
         run: |
           bash mkgpt.sh
           sudo kpartx -av gpt.img
-          dd if=u-boot/uboot.img of=loop3p2 bs=4096
-          dd if=u-boot/trust.img of=loop3p3 bs=4096
-
+          sudo dd if=u-boot/uboot.img of=loop3p2 bs=4096
+          sudo dd if=u-boot/trust.img of=loop3p3 bs=4096
+          sudo mkfs.vfat -v -c -F 32 /dev/loop3p4
+          sudo mkfs -t ext4 /dev/loop3p5
+          xz gpt.img 
       - name: Upload
         uses: actions/upload-artifact@v3
         with:
@@ -56,4 +58,5 @@ jobs:
           path: |
             u-boot/*.bin 
             u-boot/*.img
+            gpt.img.xz
           if-no-files-found: ignore
