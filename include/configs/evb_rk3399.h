@@ -26,8 +26,12 @@
 #define CONFIG_BMP_24BPP
 #define CONFIG_BMP_32BPP
 
+#define CONFIG_I2C_EDID 
+#define CONFIG_SYS_WHITE_ON_BLACK 
+#define CONFIG_CONSOLE_SCROLL_LINES 10
+
 #define ROCKCHIP_DEVICE_SETTINGS \
-		"stdout=serial,video\0" \
-		"stderr=serial,video\0"
+		"stdout=serial,vidconsole\0" \
+		"stderr=serial,vidconsole\0"
 
 #endif
