@@ -2256,11 +2256,28 @@
 
 	display_subsystem: display-subsystem {
 		compatible = "rockchip,display-subsystem";
-		ports = <&vopl_out>, <&vopb_out>;
-		clocks = <&cru PLL_VPLL>, <&cru PLL_CPLL>;
-		clock-names = "hdmi-tmds-pll", "default-vop-pll";
-		devfreq = <&dmc>;
-		status = "disabled";
+		ports = <&vopb_out>, <&vopl_out>;
+		status = "okay";
+
+		route {
+			route_hdmi: route-hdmi {
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vopb_out_hdmi>;
+			};
+
+			route_edp: route-edp {
+				status = "disabled";
+				logo,uboot = "logo.bmp";
+				logo,kernel = "logo_kernel.bmp";
+				logo,mode = "center";
+				charge_logo,mode = "center";
+				connect = <&vopb_out_edp>;
+			};
+		};
 	};
 
 	nocp_cci_msch0: nocp-cci-msch0@ffa86000 {
