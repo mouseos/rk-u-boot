@@ -63,6 +63,8 @@
 	#size-cells = <2>;
 
 	aliases {
+		dsi0 = &dsi;
+		dsi1 = &dsi1;
 		ethernet0 = &gmac;
 		i2c0 = &i2c0;
 		i2c1 = &i2c1;
@@ -1966,6 +1968,10 @@
 			vopb_out_dsi1: endpoint@4 {
 				reg = <4>;
 				remote-endpoint = <&dsi1_in_vopb>;
+			};
+			vopb_out_dsi: endpoint@5 {
+				reg = <5>;
+				remote-endpoint = <&dsi_in_vopb>;
 			};
 			
 		};
