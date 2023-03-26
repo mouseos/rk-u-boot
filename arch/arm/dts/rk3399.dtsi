@@ -1965,7 +1965,39 @@
 			
 		};
 	};
-	
+		dsi1: dsi@ff968000 {
+		compatible = "rockchip,rk3399-mipi-dsi";
+		reg = <0x0 0xff968000 0x0 0x8000>;
+		interrupts = <GIC_SPI 46 IRQ_TYPE_LEVEL_HIGH 0>;
+		clocks = <&cru SCLK_DPHY_PLL>, <&cru PCLK_MIPI_DSI1>,
+			 <&cru SCLK_DPHY_TX1RX1_CFG>;
+		clock-names = "ref", "pclk", "phy_cfg";
+		power-domains = <&power RK3399_PD_VIO>;
+		resets = <&cru SRST_P_MIPI_DSI1>;
+		reset-names = "apb";
+		rockchip,grf = <&grf>;
+		status = "disabled";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		ports {
+			port {
+				#address-cells = <1>;
+				#size-cells = <0>;
+
+				dsi1_in_vopb: endpoint@0 {
+					reg = <0>;
+					remote-endpoint = <&vopb_out_dsi1>;
+				};
+
+				dsi1_in_vopl: endpoint@1 {
+					reg = <1>;
+					remote-endpoint = <&vopl_out_dsi1>;
+				};
+			};
+		};
+	};
+
 	mipi_dsi: mipi@ff960000 {
 		compatible = "rockchip,rk3399_mipi_dsi";
 		reg = <0x0 0xff960000 0x0 0x8000>;
