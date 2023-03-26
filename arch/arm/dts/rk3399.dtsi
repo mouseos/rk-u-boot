@@ -1896,6 +1896,11 @@
 				reg = <4>;
 				remote-endpoint = <&dsi1_in_vopl>;
 			};
+			
+			vopl_out_mipi: endpoint@5 {
+				reg = <5>;
+				remote-endpoint = <&mipi_in_vopl>;
+			};
 		};
 	};
 
