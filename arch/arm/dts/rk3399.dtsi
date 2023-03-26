@@ -1876,9 +1876,9 @@
 			#address-cells = <1>;
 			#size-cells = <0>;
 			
-			vopl_out_dsi: endpoint@0 {
+			vopl_out_mipi: endpoint@0 {
 				reg = <0>;
-				remote-endpoint = <&dsi_in_vopl>;
+				remote-endpoint = <&mipi_in_vopl>;
 			};
 
 			vopl_out_hdmi: endpoint@1 {
@@ -1886,18 +1886,8 @@
 				remote-endpoint = <&hdmi_in_vopl>;
 			};
 
-			vopl_out_dp: endpoint@2 {
+			vopl_out_edp: endpoint@2 {
 				reg = <2>;
-				remote-endpoint = <&dp_in_vopl>;
-			};
-
-			vopl_out_dsi1: endpoint@3 {
-				reg = <3>;
-				remote-endpoint = <&dsi1_in_vopl>;
-			};
-
-			vopl_out_edp: endpoint@4 {
-				reg = <4>;
 				remote-endpoint = <&edp_in_vopl>;
 			};
 
@@ -1944,34 +1934,19 @@
 		vopb_out: port {
 			#address-cells = <1>;
 			#size-cells = <0>;
-			vopb_out_edp: endpoint@0 {
+			vopb_out_mipi: endpoint@0 {
 				reg = <0>;
-				remote-endpoint = <&edp_in_vopb>;
+				remote-endpoint = <&mipi_in_vopb>;
 			};
 
-			vopb_out_dsi: endpoint@1 {
+			vopb_out_hdmi: endpoint@1 {
 				reg = <1>;
-				remote-endpoint = <&dsi_in_vopb>;
-			};
-
-			vopb_out_hdmi: endpoint@2 {
-				reg = <2>;
 				remote-endpoint = <&hdmi_in_vopb>;
 			};
 
-			vopb_out_dp: endpoint@3 {
-				reg = <3>;
-				remote-endpoint = <&dp_in_vopb>;
-			};
-
-			vopb_out_dsi1: endpoint@4 {
-				reg = <4>;
-				remote-endpoint = <&dsi1_in_vopb>;
-			};
-			
-			vopb_out_mipi: endpoint@5 {
-				reg = <5>;
-				remote-endpoint = <&mipi_in_vopb>;
+			vopb_out_edp: endpoint@2 {
+				reg = <2>;
+				remote-endpoint = <&edp_in_vopb>;
 			};
 			
 		};
