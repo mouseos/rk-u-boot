@@ -1945,6 +1945,15 @@
 				remote-endpoint = <&edp_in_vopb>;
 			};
 			
+			vopb_out_dp: endpoint@3 {
+				reg = <3>;
+				remote-endpoint = <&dp_in_vopb>;
+			};
+			vopb_out_dsi1: endpoint@4 {
+				reg = <4>;
+				remote-endpoint = <&dsi1_in_vopb>;
+			};
+			
 		};
 	};
 	
