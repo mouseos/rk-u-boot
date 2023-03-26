@@ -1897,8 +1897,6 @@
 				remote-endpoint = <&dsi1_in_vopl>;
 			};
 		};
-
-		};
 	};
 
 	vop1_pwm: voppwm@ff8f01a0 {
